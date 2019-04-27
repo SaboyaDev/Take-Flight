@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import React from 'react';
 
 const BatteryStyles = styled.div`
   width: 100%;
