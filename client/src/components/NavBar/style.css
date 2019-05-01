@@ -1,0 +1,21 @@
+#signup {
+    margin: 5px;
+    border-color: #566473;
+    background-color: #566473;
+    color: #BFBFBF;
+}
+#login {
+    margin: 5px;
+    border-color: #566473;
+    color: #566473;
+}
+#login:hover {
+    border-color: #58FF26;
+    background-color: #f8f9fa;
+    color: #58FF26;
+}
+#signup:hover {
+    background-color: #58FF26;
+    border-color: #58FF26;
+    color: #f8f9fa;
+}
