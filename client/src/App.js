@@ -1,21 +1,26 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import NavBar from './components/NavBar/index';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import NavBar from "./components/NavBar/index";
+import Home from "./pages/Home";
+import Footer from "./components/Footer/index";
+import Leaders from "./pages/Leaders";
+import Guide from "./pages/Guide";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <NavBar />
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Take Flight</h2>
+      <Router>
+        <div>
+          <NavBar />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/index" component={Home} />
+              <Route exact path="/leaders" component={Leaders} />
+              <Route exact path="/guide" component={Guide} />
+            </Switch>
+            <Footer />
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      </Router>
     );
   }
 }

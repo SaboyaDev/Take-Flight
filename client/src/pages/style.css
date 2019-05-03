@@ -1,0 +1,21 @@
+#droneSection,
+#aboutSection {
+  margin-top: 100px;
+}
+#aboutSection {
+  text-align: center;
+}
+
+.parallax {
+  /* The image used */
+  background-image: url("../images/droneFlight.jpg");
+
+  /* Set a specific height */
+  min-height: 700px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}

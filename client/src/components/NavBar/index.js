@@ -1,17 +1,18 @@
 import React from "react";
-import logo from "../../takeFlight.svg";
+import { Link } from "react-router-dom";
+import logo from "../../images/takeFlight.svg";
 import "./style.css";
 
 function NavBar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-      <a className="navbar-brand" href="/index">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <a className="navbar-brand" href="/">
         <img
           src={logo}
           id="takeFlightLogo"
           alt="takeflight"
-          height="70"
-          width="280"
+          height="65"
+          width="260"
         />
       </a>
       <button
@@ -27,20 +28,20 @@ function NavBar() {
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
-          <li className="nav-item active">
-            <a className="nav-link" href="/index">
-              Home <span className="sr-only">(current)</span>
-            </a>
+          <li className="nav-item">
+            <Link to="/" id="homeNavBtn" className={window.location.pathname === "/" ? "nav-link active" : "nav-link"}>
+              Home
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/index">
-              Features
-            </a>
+            <Link to="/leaders" id="leaderNavBtn" className={window.location.pathname === "/leaders" ? "nav-link active" : "nav-link"}>
+              Leaderboard
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/index">
-              Pricing
-            </a>
+            <Link to="/guide" id="guideNavBtn" className={window.location.pathname === "/guide" ? "nav-link active" : "nav-link"}>
+              User Guide
+            </Link>
           </li>
         </ul>
       </div>

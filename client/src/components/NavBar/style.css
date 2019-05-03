@@ -1,3 +1,6 @@
+.navbar {
+    border-bottom: #566473 solid 2px;
+}
 #signup {
     margin: 5px;
     border-color: #566473;
@@ -9,13 +12,27 @@
     border-color: #566473;
     color: #566473;
 }
+#homeNavBtn,
+#leaderNavBtn,
+#guideNavBtn {
+    color: #566473;
+}
+.nav-link.active {
+    border-bottom: dashed #111111 2px;
+}
+#homeNavBtn:hover,
+#leaderNavBtn:hover,
+#guideNavBtn:hover {
+    color: #94DD98;
+    border-color: #94DD98;
+}
 #login:hover {
-    border-color: #58FF26;
+    border-color: #3B8C23;
     background-color: #f8f9fa;
-    color: #58FF26;
+    color: #3B8C23;
 }
 #signup:hover {
-    background-color: #58FF26;
-    border-color: #58FF26;
+    background-color: #3B8C23;
+    border-color: #3B8C23;
     color: #f8f9fa;
 }
