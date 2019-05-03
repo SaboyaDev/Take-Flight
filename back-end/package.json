@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "jmuxer": "^1.1.1",
     "lodash": "^4.17.11",
     "socket.io": "^2.2.0"
   }

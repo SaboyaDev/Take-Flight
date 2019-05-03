@@ -317,6 +317,11 @@ isarray@2.0.1:
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-2.0.1.tgz#a37d94ed9cda2d59865c9f76fe596ee1f338741e"
   integrity sha1-o32U7ZzaLVmGXJ92/llu4fM4dB4=
 
+jmuxer@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/jmuxer/-/jmuxer-1.1.1.tgz#16feb67dd6c68424b2cb7321cb58d961878324de"
+  integrity sha512-onL9+3e+LCDADfhbG6dvWW0xaL8Ywc+YlVKl5UW3gKG9t/WYHqwM1oOP828W8EXiIb5MpCY8xzsFuFM8ONKy3Q==
+
 lodash@^4.17.11:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
