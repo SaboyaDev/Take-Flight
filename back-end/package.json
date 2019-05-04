@@ -9,9 +9,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
     "express": "^4.16.4",
     "jmuxer": "^1.1.1",
     "lodash": "^4.17.11",
+    "mysql2": "^1.6.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^5.8.4",
+    "sessions": "^0.0.2-7",
     "socket.io": "^2.2.0"
   }
 }

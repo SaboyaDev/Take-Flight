@@ -1,38 +1,17 @@
-const express = require('express');
-const WebSocket = require('ws');
 const dgram = require('dgram');
-const app = express();
-
-// const http = require('http').Server(app);
-
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 const throttle = require('lodash/throttle');
 
-const drone = dgram.createSocket('udp4');
-const droneState = dgram.createSocket('udp4');
-const droneVideo = dgram.createSocket('udp4');
+var db = require('./models');
 
-const port_cmd = 8889; // Tello Main Port
-const port_status = 8890; // Tello Status Port
-const port_video = 11111; // Tello Video Port
-const port_websocket = 8080; // Websocket Port
-const port_httpServer = 3001; // Express HTTP Server Port
-
+const PORT = 8889;
 const HOST = '192.168.10.1';
-
-const server = app.listen(port_httpServer, () => {
-  console.log('Socket io server up and running');
-});
-
-const io = require('socket.io').listen(server);
-
-let videoBuff = []; //VIDEO BUFFER
-let counter = 0; //COUNTER FOR VIDEO BUFFER FRAMES
-
-drone.bind(port_cmd);
-droneState.bind(port_status);
+const drone = dgram.createSocket('udp4');
+drone.bind(PORT);
 
 function parseState(state) {
-  console.log(state);
   return state
     .split(';')
     .map(x => x.split(':'))
@@ -42,6 +21,14 @@ function parseState(state) {
     }, {});
 }
 
+const droneState = dgram.createSocket('udp4');
+droneState.bind(8890);
+
+drone.on('message', message => {
+  console.log(`🤖 : ${message}`);
+  io.sockets.emit('status', message.toString());
+});
+
 function handleError(err) {
   if (err) {
     console.log('ERROR');
@@ -49,10 +36,27 @@ function handleError(err) {
   }
 }
 
-drone.on('message', message => {
-  console.log(`🤖 : ${message}`);
-  io.sockets.emit('status', message.toString());
-});
+const commands = ['command', 'battery?', 'takeoff', 'land'];
+// const commands = ['command', 'battery?'];
+
+const i = 0;
+
+drone.send('command', 0, 'command'.length, PORT, HOST, handleError);
+
+// async function go() {
+//   const command = commands[i];
+//   const delay = commandDelays[command];
+//   console.log(`running command: ${command}`);
+//   drone.send(command, 0, command.length, PORT, HOST, handleError);
+//   await wait(delay);
+//   i += 1;
+//   if (i < commands.length) {
+//     return go();
+//   }
+//   console.log('done!');
+// }
+
+// go();
 
 io.on('connection', socket => {
   socket.on('command', command => {
@@ -64,61 +68,33 @@ io.on('connection', socket => {
   socket.emit('status', 'CONNECTED');
 });
 
+var telloData = formattedState => {
+  let flyingData = {
+    pitch: formattedState.pitch,
+    roll: formattedState.roll,
+    yaw: formattedState.yaw,
+    vgx: formattedState.vgx,
+    vgy: formattedState.vgy,
+    vgz: formattedState.vgz,
+    h: formattedState.h
+  };
+  db.userFlyingData.create(flyingData);
+};
+
 droneState.on(
   'message',
   throttle(state => {
     const formattedState = parseState(state.toString());
+    console.log(formattedState);
+    telloData(formattedState);
     io.sockets.emit('dronestate', formattedState);
   }, 100)
 );
 
-//###WEBSOCKET### SERVER
-let websocket = new WebSocket.Server({ port: port_websocket });
-websocket.on('connection', function connection(websocket) {
-  console.log('Socket connected. sending data...');
-  websocket.on('error', function error(error) {
-    console.log('WebSocket error');
-  });
-  websocket.on('close', function close(msg) {
-    console.log('WebSocket close');
-  });
-});
+var syncOptions = { force: false };
 
-//###UDP### VIDEO
-//INPUT
-//RAW RAW H264 DIVIDED IN MULTIPLE MESSAGES PER FRAME
-droneVideo.on('error', err => {
-  console.log(`server error:\n${err.stack}`);
-  droneVideo.close();
+db.sequelize.sync(syncOptions).then(function() {
+  http.listen(6767, () => {
+    console.log('Socket io server up and running');
+  });
 });
-droneVideo.on('message', (msg, rinfo) => {
-  let buf = Buffer.from(msg);
-  if (buf.indexOf(Buffer.from([0, 0, 0, 1])) != -1) {
-    //FIND IF FIRST PART OF FRAME
-    counter++;
-    if (counter == 3) {
-      //COLLECT 3 FRAMES AND SEND TO WEBSOCKET
-      let temp = Buffer.concat(videoBuff);
-      counter = 0;
-      websocket.clients.forEach(function each(client) {
-        if (client.readyState === WebSocket.OPEN) {
-          try {
-            client.send(temp); //SEND OVER WEBSOCKET
-          } catch (e) {
-            console.log(`Sending failed:`, e);
-          }
-        }
-      });
-      videoBuff.length = 0;
-      videoBuff = [];
-    }
-    videoBuff.push(buf);
-  } else {
-    videoBuff.push(buf);
-  }
-});
-droneVideo.on('listening', () => {
-  let address = droneVideo.address();
-  console.log(`UDP VIDEO SERVER - ${address.address}:${address.port}`);
-});
-droneVideo.bind(port_video);

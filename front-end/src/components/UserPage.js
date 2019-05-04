@@ -13,19 +13,33 @@ class UserPage extends Component {
     return (
       <div id='container'>
         User Page With Video Feed
-        <button className='rotate' onClick={sendCommand('streamon')}>
-          video-on
+        <button className='takeoff' onClick={sendCommand('takeoff')}>
+          Take-off
         </button>
-        <button className='rotate' onClick={sendCommand('streamoff')}>
-          video-off
+        <button className='land' onClick={sendCommand('land')}>
+          Land
         </button>
-        <video
-          width='720'
-          controls
-          autoplay
-          poster='images/loader-thumb.jpg'
-          id='player'
-        />
+        <button className='takeoff' onClick={sendCommand('forward 100')}>
+          forward
+        </button>
+        <button className='land' onClick={sendCommand('back 100')}>
+          back
+        </button>
+        <button className='land' onClick={sendCommand('up 300')}>
+          up 300
+        </button>
+        <button className='land' onClick={sendCommand('up 200')}>
+          up 200
+        </button>
+        <button className='land' onClick={sendCommand('down 100')}>
+          down 100
+        </button>
+        <button className='land' onClick={sendCommand('down 300')}>
+          down 300
+        </button>
+        <button className='land' onClick={sendCommand('ccw 90')}>
+          Counter clockwise 90
+        </button>
       </div>
     );
   }

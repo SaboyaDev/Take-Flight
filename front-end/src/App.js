@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/Home';
 import LogIn from './components/LogIn';
 import UserPage from './components/UserPage';
-import JMuxer from 'jmuxer';
+// import JMuxer from 'jmuxer';
 
 import './App.css';
 
