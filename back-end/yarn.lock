@@ -746,6 +746,11 @@ statuses@~1.4.0:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.4.0.tgz#bb73d446da2796106efcc1b601a253d6c46bd087"
   integrity sha512-zhSCtt8v2NDrRlPQpCNtw/heZLtfUDqxBM1udqikb/Hbk52LK4nQSwr10u77iopCW5LsyHpuXS0GnEc48mLeew==
 
+tellojs@^0.1.22:
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/tellojs/-/tellojs-0.1.22.tgz#0573caba01ba69f0b76e3677e203bf1fc149a413"
+  integrity sha512-uT43MicYIzCc53gT38oi9w64Exhf7OWfMFUIRQAlKTEvXnaBYpj1a/QCH9/dkv4iPi0GNmWcvV5/jxPtvyc3XQ==
+
 to-array@0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/to-array/-/to-array-0.1.4.tgz#17e6c11f73dd4f3d74cda7a4ff3238e9ad9bf890"

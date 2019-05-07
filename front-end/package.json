@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.0",
-    "jmuxer": "^1.1.1",
     "next": "^8.1.0",
+    "plotly.js": "^1.47.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-drone-hud": "^0.0.1-rc0",
+    "react-plotly.js": "^2.3.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "socket.io-client": "^2.2.0"

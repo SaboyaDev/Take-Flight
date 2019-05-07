@@ -3,13 +3,18 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const throttle = require('lodash/throttle');
+// const sdk = require('tellojs');
 
-var db = require('./models');
+// var db = require('./models');
 
 const PORT = 8889;
 const HOST = '192.168.10.1';
+
 const drone = dgram.createSocket('udp4');
 drone.bind(PORT);
+
+const droneState = dgram.createSocket('udp4');
+droneState.bind(8890);
 
 function parseState(state) {
   return state
@@ -21,42 +26,27 @@ function parseState(state) {
     }, {});
 }
 
-const droneState = dgram.createSocket('udp4');
-droneState.bind(8890);
+function handleError(err) {
+  if (err) {
+    console.log('ERROR');
+    console.log(err);
+    throw err;
+  }
+}
 
 drone.on('message', message => {
   console.log(`🤖 : ${message}`);
   io.sockets.emit('status', message.toString());
 });
 
-function handleError(err) {
-  if (err) {
-    console.log('ERROR');
-    console.log(err);
-  }
-}
-
-const commands = ['command', 'battery?', 'takeoff', 'land'];
-// const commands = ['command', 'battery?'];
-
-const i = 0;
-
 drone.send('command', 0, 'command'.length, PORT, HOST, handleError);
 
-// async function go() {
-//   const command = commands[i];
-//   const delay = commandDelays[command];
-//   console.log(`running command: ${command}`);
-//   drone.send(command, 0, command.length, PORT, HOST, handleError);
-//   await wait(delay);
-//   i += 1;
-//   if (i < commands.length) {
-//     return go();
-//   }
-//   console.log('done!');
-// }
+drone.send('battery?', 0, 'battery?'.length, PORT, HOST, handleError);
 
-// go();
+// setInterval(() => {
+//   drone.send('command', 0, 'command'.length, PORT, HOST, handleError);
+//   drone.send('mon', 0, 'mon'.length, PORT, HOST, handleError);
+// }, 2000);
 
 io.on('connection', socket => {
   socket.on('command', command => {
@@ -64,37 +54,55 @@ io.on('connection', socket => {
     console.log(command);
     drone.send(command, 0, command.length, PORT, HOST, handleError);
   });
-
   socket.emit('status', 'CONNECTED');
 });
-
-var telloData = formattedState => {
-  let flyingData = {
-    pitch: formattedState.pitch,
-    roll: formattedState.roll,
-    yaw: formattedState.yaw,
-    vgx: formattedState.vgx,
-    vgy: formattedState.vgy,
-    vgz: formattedState.vgz,
-    h: formattedState.h
-  };
-  db.userFlyingData.create(flyingData);
-};
 
 droneState.on(
   'message',
   throttle(state => {
     const formattedState = parseState(state.toString());
     console.log(formattedState);
-    telloData(formattedState);
     io.sockets.emit('dronestate', formattedState);
   }, 100)
 );
 
-var syncOptions = { force: false };
+// var syncOptions = { force: false };
 
-db.sequelize.sync(syncOptions).then(function() {
-  http.listen(6767, () => {
-    console.log('Socket io server up and running');
-  });
+// db.sequelize.sync(syncOptions).then(function() {
+//   http.listen(6767, () => {
+//     console.log('Socket io server up and running');
+//   });
+// });
+
+http.listen(6767, () => {
+  console.log('Socket io server up and running');
 });
+
+// sdk.read.battery();
+// sdk.read.temperature();
+// sdk.read.barometer();
+// setInterval(() => {
+//   sdk.read.barometer();
+// }, 2000);
+
+// var telloData = formattedState => {
+//   let flyingData = {
+//     pitch: formattedState.pitch,
+//     roll: formattedState.roll,
+//     yaw: formattedState.yaw,
+//     vgx: formattedState.vgx,
+//     vgy: formattedState.vgy,
+//     vgz: formattedState.vgz,
+//     templ: formattedState.templ,
+//     temph: formattedState.temph,
+//     tof: formattedState.tof,
+//     h: formattedState.h,
+//     bat: formattedState.bat,
+//     baro: formattedState.baro,
+//     time: formattedState.time,
+//     agx: formattedState.agx,
+//     agy: formattedState.agy,
+//     agz: formattedState.agz
+//   };
+//   db.userFlyingData.create(flyingData);
+// };

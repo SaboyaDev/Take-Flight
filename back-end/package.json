@@ -19,6 +19,7 @@
     "passport-local": "^1.0.0",
     "sequelize": "^5.8.4",
     "sessions": "^0.0.2-7",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "tellojs": "^0.1.22"
   }
 }
