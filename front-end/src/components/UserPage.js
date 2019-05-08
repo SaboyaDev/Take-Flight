@@ -31,7 +31,8 @@ function useSocket() {
 const UserPage = () => {
   const status = useSocket();
   const droneState = useDroneState([]);
-  console.log(droneState.h);
+  // console.log(typeof droneState.h === 'number');
+  // console.log(typeof droneState.yaw === 'number');
   return (
     <div id='container'>
       User Page With Video Feed
@@ -42,22 +43,20 @@ const UserPage = () => {
       <br />
       <p className='status'>Status: {status}</p>
       <DroneStateTest
-        pitch={droneState.pitch}
-        roll={droneState.roll}
-        yaw={droneState.yaw}
-        height={droneState.h}
+        pitch={parseFloat(droneState.pitch)}
+        roll={parseFloat(droneState.roll)}
+        yaw={parseFloat(droneState.yaw)}
+        altitude={parseFloat(droneState.h)}
       />
       <DroneState
-        width={600} //width in px, best if >= 500
+        width={800} //width in px, best if >= 500
         height={400} ///height in px, best if >= 400
-        pitch={droneState.pitch} // ***degrees
-        roll={droneState.roll} // ***degrees, -ve -> left bank
-        // heading={droneState.yaw} // ***degrees, optional
-        heading={250} // ***degrees, optional
-        airspeed={0} //left-side number, optional
+        pitch={parseFloat(droneState.pitch)} // ***degrees
+        roll={parseFloat(droneState.roll)} // ***degrees, -ve -> left bank
+        heading={parseFloat(droneState.yaw)} // ***degrees, optional
+        airspeed={10} //left-side number, optional
         airspeedTickSize={5} //increments to use for vertical gauge, optional
-        // altitude={droneState.h} // ***right-side number, optional
-        altitude={100} // ***right-side number, optional
+        altitude={parseFloat(droneState.h)} // ***right-side number, optional
         altitudeTickSize={10} //optional
       />
     </div>

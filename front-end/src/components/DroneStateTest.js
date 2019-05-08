@@ -1,11 +1,11 @@
 import React from 'react';
 
-const DroneStateTest = ({ pitch, roll, yaw, height }) => (
+const DroneStateTest = ({ pitch, roll, yaw, altitude }) => (
   <div>
     <span>Pitch: {pitch}</span>
     <span>Roll: {roll}</span>
     <span>Yaw: {yaw}</span>
-    <span>Height: {height / 100}</span>
+    <span>Altitude: {altitude}</span>
   </div>
 );
 
