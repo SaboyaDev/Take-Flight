@@ -7,6 +7,13 @@
 <p/>
 
 
+
+## See My Demo Presentation 
+
+Click [YouTube](https://www.youtube.com/watch?v=izNCqQCPWCQ&t=5s) to see this Drone project
+
+
+
 ## Technologies:
 
 - React
@@ -33,8 +40,4 @@ Below I have the steps required to clone my repo on your local machine.
 _Make sure to have [Node.js](https://nodejs.org/en/) so that you can use [NPM](https://www.npmjs.com/) CLI, which comes with Node.js installation._
 
 Make sure to start both front-end and backend-end servers
-
-## See My Demo Presentation 
-
-Click [YouTube] (https://www.youtube.com/watch?v=izNCqQCPWCQ&t=5s) to see this Drone project
 
