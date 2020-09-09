@@ -3,7 +3,7 @@
 
 
 <p align="center">
-   <img src="https://personal-portfolio-2020.s3.amazonaws.com/takeflight.gif">
+   <img src="./front-end/src/sources/takeflight.gif">
 <p/>
 
 
